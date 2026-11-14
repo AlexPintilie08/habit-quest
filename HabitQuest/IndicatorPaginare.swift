@@ -2,11 +2,12 @@ import SwiftUI
 
 struct IndicatorPaginare: View {
     let paginaActiva: Int
+    let numarPagini: Int
     let progres: Double
 
     var body: some View {
         HStack(spacing: 8) {
-            ForEach(0..<3, id: \.self) { index in
+            ForEach(0..<numarPagini, id: \.self) { index in
                 if index == paginaActiva {
                     GeometryReader { geometrie in
                         ZStack(alignment: .leading) {
@@ -28,6 +29,6 @@ struct IndicatorPaginare: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("Progres onboarding")
-        .accessibilityValue("Pagina \(paginaActiva + 1) din 3")
+        .accessibilityValue("Pagina \(paginaActiva + 1) din \(numarPagini)")
     }
 }
