@@ -12,6 +12,10 @@
 			isa = PBXBuildFile;
 			fileRef = 000000000000000000000004;
 		};
+		000000000000000000000020 = {isa = PBXBuildFile; fileRef = 000000000000000000000024; };
+		000000000000000000000021 = {isa = PBXBuildFile; fileRef = 000000000000000000000025; };
+		000000000000000000000022 = {isa = PBXBuildFile; fileRef = 000000000000000000000026; };
+		000000000000000000000023 = {isa = PBXBuildFile; fileRef = 000000000000000000000027; };
 		000000000000000000000003 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.swift;
@@ -24,6 +28,10 @@
 			path = EcranBunVenit.swift;
 			sourceTree = "<group>";
 		};
+		000000000000000000000024 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluxAplicatie.swift; sourceTree = "<group>"; };
+		000000000000000000000025 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorPaginare.swift; sourceTree = "<group>"; };
+		000000000000000000000026 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcranAutentificareDemo.swift; sourceTree = "<group>"; };
+		000000000000000000000027 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcranAcasa.swift; sourceTree = "<group>"; };
 		000000000000000000000005 = {
 			isa = PBXFileReference;
 			explicitFileType = wrapper.application;
@@ -59,6 +67,10 @@
 			children = (
 				000000000000000000000003,
 				000000000000000000000004,
+				000000000000000000000024,
+				000000000000000000000025,
+				000000000000000000000026,
+				000000000000000000000027,
 			);
 			path = HabitQuest;
 			sourceTree = "<group>";
@@ -121,6 +133,10 @@
 			files = (
 				000000000000000000000001,
 				000000000000000000000002,
+				000000000000000000000020,
+				000000000000000000000021,
+				000000000000000000000022,
+				000000000000000000000023,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -4,7 +4,7 @@ import SwiftUI
 struct AplicatieHabitQuest: App {
     var body: some Scene {
         WindowGroup {
-            EcranBunVenit()
+            FluxAplicatie()
         }
     }
 }
