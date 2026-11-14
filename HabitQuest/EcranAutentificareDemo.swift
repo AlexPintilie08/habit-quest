@@ -4,46 +4,133 @@ struct EcranAutentificareDemo: View {
     let autentificaDemo: () -> Void
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                VStack(spacing: 8) {
-                    Text("Habit Quest")
-                        .font(.largeTitle)
-                        .foregroundStyle(.black)
+        GeometryReader { geometrie in
+            ScrollView {
+                VStack(spacing: 0) {
+                    Image("IlustratieAutentificare")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: min(geometrie.size.height * 0.28, 230))
+                        .accessibilityHidden(true)
 
-                    Text("Alege cum vrei sa continui.")
-                        .font(.body)
-                        .foregroundStyle(.secondary)
+                    VStack(spacing: 4) {
+                        Text("Habit Quest")
+                            .font(.system(size: 42, weight: .bold))
+                            .foregroundStyle(.black)
+
+                        Text("Aventura ta incepe aici")
+                            .font(.title3)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.bottom, 22)
+
+                    VStack(spacing: 10) {
+                        butonIndisponibil("Continue with Apple", sigla: nil, simbol: "apple.logo")
+                        butonIndisponibil("Continue with Google", sigla: "SiglaGoogle")
+                        butonIndisponibil("Continue with Facebook", sigla: "SiglaFacebook")
+                        butonIndisponibil("Sign in with Microsoft", sigla: "SiglaMicrosoft")
+                    }
+
+                    butonLoginDemo
+                        .padding(.top, 22)
                 }
-
-                VStack(spacing: 10) {
-                    Text("Indisponibile momentan")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-
-                    butonIndisponibil("Continue with Apple")
-                    butonIndisponibil("Continue with Google")
-                    butonIndisponibil("Continue with Facebook")
-                    butonIndisponibil("Continue with Microsoft")
-                }
-
-                Divider()
-
-                Button("Login Demo", action: autentificaDemo)
-                    .buttonStyle(.borderedProminent)
-                    .tint(.black)
+                .padding(.horizontal, 24)
+                .padding(.top, 8)
+                .padding(.bottom, 24)
+                .frame(maxWidth: 480)
+                .frame(maxWidth: .infinity)
             }
-            .padding(24)
-            .frame(maxWidth: 400)
-            .frame(maxWidth: .infinity)
+            .scrollIndicators(.hidden)
         }
         .background(Color.white.ignoresSafeArea())
     }
 
-    private func butonIndisponibil(_ titlu: String) -> some View {
-        Button(titlu) {}
+    private var butonLoginDemo: some View {
+        Button(action: autentificaDemo) {
+            HStack(spacing: 16) {
+                Image(systemName: "building.2.fill")
+                    .font(.system(size: 25, weight: .medium))
+                    .frame(width: 46, height: 46)
+
+                Rectangle()
+                    .fill(Color.white.opacity(0.3))
+                    .frame(width: 1, height: 38)
+
+                Text("Login Demo")
+                    .font(.system(size: 21, weight: .semibold))
+
+                Spacer()
+
+                Image(systemName: "arrow.right")
+                    .font(.system(size: 20, weight: .medium))
+            }
+            .foregroundStyle(.white)
+            .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
-            .buttonStyle(.bordered)
-            .disabled(true)
+            .frame(height: 76)
+            .background(Color.black, in: RoundedRectangle(cornerRadius: 24))
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func butonIndisponibil(_ titlu: String, sigla: String?, simbol: String? = nil) -> some View {
+        Button {} label: {
+            HStack(spacing: 14) {
+                Group {
+                    if let sigla {
+                        Image(sigla)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(4)
+                    } else if let simbol {
+                        Image(systemName: simbol)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(11)
+                            .foregroundStyle(.black)
+                    }
+                }
+                .frame(width: 44, height: 44)
+                .background(Color.black.opacity(0.05), in: RoundedRectangle(cornerRadius: 14))
+
+                Rectangle()
+                    .fill(Color.black.opacity(0.1))
+                    .frame(width: 1, height: 44)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(titlu)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(Color.black.opacity(0.72))
+
+                    Text("Indisponibil momentan")
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color.black.opacity(0.48))
+                }
+
+                Spacer(minLength: 4)
+
+                Image(systemName: "lock")
+                    .font(.system(size: 19, weight: .regular))
+                    .foregroundStyle(Color.black.opacity(0.48))
+            }
+            .padding(.horizontal, 14)
+            .frame(maxWidth: .infinity)
+            .frame(height: 72)
+            .background(Color.black.opacity(0.04), in: RoundedRectangle(cornerRadius: 22))
+            .overlay {
+                RoundedRectangle(cornerRadius: 22)
+                    .stroke(Color.black.opacity(0.06), lineWidth: 1)
+            }
+        }
+        .buttonStyle(StilButonInactiv())
+        .disabled(true)
+        .accessibilityHint("Metoda de autentificare indisponibila")
+    }
+}
+
+private struct StilButonInactiv: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
     }
 }

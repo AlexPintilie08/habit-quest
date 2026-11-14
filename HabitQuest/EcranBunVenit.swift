@@ -10,32 +10,38 @@ struct EcranBunVenit: View {
         SlideBunVenit(
             id: 0,
             titlu: "Bun venit in Habit Quest",
-            descriere: "Transforma-ti obiceiurile intr-o aventura. Construieste-ti propria lume si evolueaza in fiecare zi."
+            descriere: "Transforma-ti obiceiurile intr-o aventura. Construieste-ti propria lume si evolueaza in fiecare zi.",
+            ilustratie: "IlustratieBunVenit"
         ),
         SlideBunVenit(
             id: 1,
             titlu: "Fiecare zi conteaza",
-            descriere: "Completeaza misiuni, castiga XP, avanseaza pe harta si deblocheaza recompense."
+            descriere: "Completeaza misiuni, castiga XP, avanseaza pe harta si deblocheaza recompense.",
+            ilustratie: "IlustratieZi"
         ),
         SlideBunVenit(
             id: 2,
             titlu: "Creeaza-ti eroul",
-            descriere: "Personalizeaza-ti personajul, creste in nivel si deblocheaza echipamente si obiecte speciale."
+            descriere: "Personalizeaza-ti personajul, creste in nivel si deblocheaza echipamente si obiecte speciale.",
+            ilustratie: "IlustratieErou"
         ),
         SlideBunVenit(
             id: 3,
             titlu: "Construieste-ti satul",
-            descriere: "Fiecare obicei bun aduce un nou locuitor. Ajuta-l sa evolueze si transforma satul intr-o lume unica."
+            descriere: "Fiecare obicei bun aduce un nou locuitor. Ajuta-l sa evolueze si transforma satul intr-o lume unica.",
+            ilustratie: "IlustratieSat"
         ),
         SlideBunVenit(
             id: 4,
             titlu: "Obiceiurile bune prind viata",
-            descriere: "Cititul, sportul sau studiul devin misiuni pentru locuitorii satului tau."
+            descriere: "Cititul, sportul sau studiul devin misiuni pentru locuitorii satului tau.",
+            ilustratie: "IlustratieObiceiuriBune"
         ),
         SlideBunVenit(
             id: 5,
             titlu: "Invinge obiceiurile rele",
-            descriere: "Transforma obiceiurile de care vrei sa scapi in adversari. Progresul tau te ajuta sa ii invingi."
+            descriere: "Transforma obiceiurile de care vrei sa scapi in adversari. Progresul tau te ajuta sa ii invingi.",
+            ilustratie: "IlustratieObiceiuriRele"
         )
     ]
 
@@ -50,40 +56,41 @@ struct EcranBunVenit: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
 
             VStack {
-                HStack {
-                    Spacer()
-                    Button(action: deschideAutentificarea) {
-                        Text("Omite")
-                            .font(.body)
-                            .foregroundStyle(.secondary)
-                            .frame(minWidth: 44, minHeight: 44, alignment: .trailing)
-                    }
-                    .buttonStyle(.plain)
-                }
-
                 Spacer(minLength: 0)
 
-                VStack(alignment: .trailing, spacing: 12) {
-                    Button(action: treciLaUrmatorulSlide) {
-                        Image(systemName: "arrow.right")
-                            .font(.system(size: 17, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .frame(width: 48, height: 48)
-                            .background(Color.black, in: Circle())
+                HStack(alignment: .bottom) {
+                    Button(action: deschideAutentificarea) {
+                        Text("Skip")
+                            .font(.system(size: 17, weight: .medium))
+                            .foregroundStyle(.primary)
+                            .padding(.horizontal, 22)
+                            .frame(minHeight: 48)
+                            .background(Color.black.opacity(0.05), in: Capsule())
                     }
-                    .accessibilityLabel("Urmatorul slide")
+                    .buttonStyle(.plain)
 
-                    IndicatorPaginare(
-                        paginaActiva: paginaActiva,
-                        numarPagini: slideuri.count,
-                        progres: progresActiv
-                    )
+                    Spacer(minLength: 20)
+
+                    VStack(alignment: .trailing, spacing: 14) {
+                        Button(action: treciLaUrmatorulSlide) {
+                            Image(systemName: "arrow.right")
+                                .font(.system(size: 21, weight: .medium))
+                                .foregroundStyle(.white)
+                                .frame(width: 52, height: 52)
+                                .background(Color.black, in: Circle())
+                        }
+                        .accessibilityLabel("Urmatorul slide")
+
+                        IndicatorPaginare(
+                            paginaActiva: paginaActiva,
+                            numarPagini: slideuri.count,
+                            progres: progresActiv
+                        )
+                    }
                 }
-                .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .padding(.horizontal, 24)
-            .padding(.top, 8)
-            .padding(.bottom, 24)
+            .padding(.bottom, 12)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white.ignoresSafeArea())
