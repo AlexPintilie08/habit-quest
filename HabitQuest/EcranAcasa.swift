@@ -18,37 +18,68 @@ struct EcranAcasa: View {
                     .toolbarBackground(CuloriHabitQuest.fundalPrincipal, for: .navigationBar)
                     .toolbarBackground(.visible, for: .navigationBar)
             }
-                .tabItem { Label("Sat", systemImage: "house.fill") }
+                .tabItem {
+                    Label(
+                        "Sat",
+                        systemImage: filaSelectata == .sat ? "house.fill" : "house"
+                    )
+                }
                 .tag(FilaAcasa.sat)
 
             NavigationStack {
                 paginaJourney
                     .navigationTitle("Journey")
             }
-                .tabItem { Label("Journey", systemImage: "map") }
+                .tabItem {
+                    Label(
+                        "Journey",
+                        systemImage: filaSelectata == .journey ? "map.fill" : "map"
+                    )
+                }
                 .tag(FilaAcasa.journey)
 
             EcranPersonaj(esteActiv: filaSelectata == .character)
-                .tabItem { Label("Character", systemImage: "person.crop.square") }
+                .tabItem {
+                    Label(
+                        "Character",
+                        systemImage: filaSelectata == .character
+                            ? "person.crop.square.fill"
+                            : "person.crop.square"
+                    )
+                }
                 .tag(FilaAcasa.character)
 
             EcranSetari()
-                .tabItem { Label("Setari", systemImage: "gearshape") }
+                .tabItem {
+                    Label(
+                        "Setari",
+                        systemImage: filaSelectata == .setari ? "gearshape.fill" : "gearshape"
+                    )
+                }
                 .tag(FilaAcasa.setari)
         }
-        .tint(.accentColor)
+        .tint(
+            filaSelectata == .journey
+                ? CuloriHabitQuest.accentChihlimbar
+                : CuloriHabitQuest.albastruInteractiune
+        )
         .background(CuloriHabitQuest.fundalPrincipal.ignoresSafeArea())
     }
 
     private var paginaSat: some View {
         GeometryReader { geometrie in
-            VStack(spacing: 12) {
+            let latimeImagine = min(
+                min(geometrie.size.height * 0.48, 360) * 640 / 520,
+                geometrie.size.width - 48
+            )
+
+            VStack(spacing: 16) {
+                Spacer(minLength: 0)
+
                 Image("IlustratieSatAcasa")
                     .resizable()
                     .scaledToFit()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: min(max(geometrie.size.height * 0.58, 280), 420))
-                    .background(CuloriHabitQuest.fundalIlustratie)
+                    .frame(width: latimeImagine, height: latimeImagine * 520 / 640)
                     .accessibilityHidden(true)
 
                 Text("Aici va creste satul tau")

@@ -5,15 +5,17 @@ struct EcranAutentificareDemo: View {
 
     var body: some View {
         GeometryReader { geometrie in
+            let inaltimeImagine = min(max(geometrie.size.height * 0.24, 140), 210)
+            let latimeImagine = min(inaltimeImagine * 941 / 530, geometrie.size.width - 48)
+
             ScrollView {
                 VStack(spacing: 0) {
+                    Spacer(minLength: 0)
+
                     Image("IlustratieAutentificare")
                         .resizable()
                         .scaledToFit()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: min(geometrie.size.height * 0.28, 230))
-                        .background(CuloriHabitQuest.fundalIlustratie)
-                        .padding(.horizontal, -24)
+                        .frame(width: latimeImagine, height: latimeImagine * 530 / 941)
                         .accessibilityHidden(true)
 
                     VStack(spacing: 4) {
@@ -25,23 +27,34 @@ struct EcranAutentificareDemo: View {
                             .font(.body)
                             .foregroundStyle(CuloriHabitQuest.textSecundar)
                     }
-                    .padding(.bottom, 22)
+                    .padding(.top, 12)
+                    .padding(.bottom, 20)
 
-                    VStack(spacing: 4) {
-                        randIndisponibil("Continue with Apple")
-                        randIndisponibil("Continue with Google")
-                        randIndisponibil("Continue with Facebook")
-                        randIndisponibil("Sign in with Microsoft")
+                    VStack(spacing: 0) {
+                        randIndisponibil("Continue with Apple", simbol: "apple.logo")
+                        Divider().padding(.leading, 48)
+                        randIndisponibil("Continue with Google", sigla: "SiglaGoogle")
+                        Divider().padding(.leading, 48)
+                        randIndisponibil("Continue with Facebook", sigla: "SiglaFacebook")
+                        Divider().padding(.leading, 48)
+                        randIndisponibil("Sign in with Microsoft", sigla: "SiglaMicrosoft")
                     }
+                    .padding(.horizontal, 12)
+                    .background(
+                        CuloriHabitQuest.suprafataSecundara,
+                        in: RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    )
 
                     butonLoginDemo
-                        .padding(.top, 22)
+                        .padding(.top, 20)
+
+                    Spacer(minLength: 0)
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 8)
-                .padding(.bottom, 24)
+                .padding(.vertical, 20)
                 .frame(maxWidth: 480)
                 .frame(maxWidth: .infinity)
+                .frame(minHeight: geometrie.size.height)
             }
             .scrollIndicators(.hidden)
         }
@@ -59,20 +72,47 @@ struct EcranAutentificareDemo: View {
         .foregroundStyle(CuloriHabitQuest.textPeAccent)
     }
 
-    private func randIndisponibil(_ titlu: String) -> some View {
+    @ViewBuilder
+    private func randIndisponibil(
+        _ titlu: String,
+        sigla: String? = nil,
+        simbol: String? = nil
+    ) -> some View {
         HStack(spacing: 12) {
+            Group {
+                if let sigla {
+                    Image(sigla)
+                        .resizable()
+                        .renderingMode(.original)
+                        .scaledToFit()
+                } else if let simbol {
+                    Image(systemName: simbol)
+                        .resizable()
+                        .renderingMode(.original)
+                        .scaledToFit()
+                        .padding(4)
+                        .foregroundStyle(CuloriHabitQuest.textPrincipal)
+                }
+            }
+            .frame(width: 28, height: 28)
+            .accessibilityHidden(true)
+
             Text(titlu)
-                .font(.body)
-                .foregroundStyle(CuloriHabitQuest.textSecundar)
+                .font(.body.weight(.medium))
+                .foregroundStyle(CuloriHabitQuest.textPrincipal)
+                .fixedSize(horizontal: false, vertical: true)
 
             Spacer(minLength: 8)
 
-            Text("Indisponibil")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            HStack(spacing: 5) {
+                Image(systemName: "lock.fill")
+                Text("Indisponibil")
+            }
+            .font(.caption)
+            .foregroundStyle(CuloriHabitQuest.textSecundar)
         }
-        .frame(maxWidth: .infinity, minHeight: 44)
+        .frame(maxWidth: .infinity, minHeight: 54)
         .accessibilityElement(children: .combine)
-        .accessibilityHint("Metoda de autentificare indisponibila")
+        .accessibilityLabel("\(titlu), indisponibil momentan")
     }
 }

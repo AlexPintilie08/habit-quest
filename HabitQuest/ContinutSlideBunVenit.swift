@@ -12,35 +12,42 @@ struct ContinutSlideBunVenit: View {
 
     var body: some View {
         GeometryReader { geometrie in
+            let dimensiuneImagine = min(
+                min(geometrie.size.height * 0.44, 380),
+                geometrie.size.width - 56
+            )
+
             ScrollView {
                 VStack(spacing: 0) {
+                    Spacer(minLength: 0)
+
                     Image(slide.ilustratie)
                         .resizable()
                         .scaledToFit()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: min(max(geometrie.size.height * 0.52, 260), 440))
-                        .background(CuloriHabitQuest.fundalIlustratie)
-                        .padding(.horizontal, -28)
+                        .frame(width: dimensiuneImagine * 941 / 950, height: dimensiuneImagine)
                         .accessibilityHidden(true)
 
-                    Text(slide.titlu)
-                        .font(.title2.weight(.bold))
-                        .foregroundStyle(CuloriHabitQuest.textPrincipal)
-                        .multilineTextAlignment(.center)
-                        .fixedSize(horizontal: false, vertical: true)
+                    VStack(spacing: 12) {
+                        Text(slide.titlu)
+                            .font(.title2.weight(.bold))
+                            .foregroundStyle(CuloriHabitQuest.textPrincipal)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
 
-                    Text(slide.descriere)
-                        .font(.body)
-                        .foregroundStyle(CuloriHabitQuest.textSecundar)
-                        .multilineTextAlignment(.center)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .lineSpacing(3)
-                        .padding(.top, 14)
+                        Text(slide.descriere)
+                            .font(.body)
+                            .foregroundStyle(CuloriHabitQuest.textSecundar)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineSpacing(3)
+                    }
+                    .padding(.top, 12)
+
+                    Spacer(minLength: 0)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 28)
-                .padding(.top, 4)
-                .padding(.bottom, 24)
+                .frame(minHeight: geometrie.size.height)
             }
             .scrollIndicators(.hidden)
         }
