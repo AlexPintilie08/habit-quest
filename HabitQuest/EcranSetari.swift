@@ -66,6 +66,8 @@ struct EcranSetari: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(CuloriHabitQuest.fundalPrincipal)
             .navigationTitle("Setari")
         }
     }
@@ -123,6 +125,8 @@ private struct EcranDespre: View {
                 Text("Habit Quest transforma formarea obiceiurilor intr-o aventura de zi cu zi.")
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(CuloriHabitQuest.fundalPrincipal)
         .navigationTitle("Despre Habit Quest")
     }
 }

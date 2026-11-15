@@ -19,21 +19,19 @@ struct ContinutSlideBunVenit: View {
                         .scaledToFit()
                         .frame(maxWidth: .infinity)
                         .frame(height: min(max(geometrie.size.height * 0.52, 260), 440))
-                        .padding(8)
-                        .background(.white, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                        .background(CuloriHabitQuest.fundalIlustratie)
+                        .padding(.horizontal, -28)
                         .accessibilityHidden(true)
 
                     Text(slide.titlu)
-                        .font(.system(size: 28, weight: .bold))
-                        .foregroundStyle(.primary)
+                        .font(.title2.weight(.bold))
+                        .foregroundStyle(CuloriHabitQuest.textPrincipal)
                         .multilineTextAlignment(.center)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
                         .fixedSize(horizontal: false, vertical: true)
 
                     Text(slide.descriere)
-                        .font(.system(size: 20))
-                        .foregroundStyle(.secondary)
+                        .font(.body)
+                        .foregroundStyle(CuloriHabitQuest.textSecundar)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineSpacing(3)
@@ -42,11 +40,11 @@ struct ContinutSlideBunVenit: View {
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 28)
                 .padding(.top, 4)
-                .padding(.bottom, 144)
+                .padding(.bottom, 24)
             }
             .scrollIndicators(.hidden)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: .systemBackground))
+        .background(CuloriHabitQuest.fundalPrincipal)
     }
 }

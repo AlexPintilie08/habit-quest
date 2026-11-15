@@ -12,11 +12,19 @@ struct EcranAcasa: View {
 
     var body: some View {
         TabView(selection: $filaSelectata) {
-            paginaSat
+            NavigationStack {
+                paginaSat
+                    .navigationTitle("Sat")
+                    .toolbarBackground(CuloriHabitQuest.fundalPrincipal, for: .navigationBar)
+                    .toolbarBackground(.visible, for: .navigationBar)
+            }
                 .tabItem { Label("Sat", systemImage: "house.fill") }
                 .tag(FilaAcasa.sat)
 
-            ecranCuTitlu("Journey")
+            NavigationStack {
+                paginaJourney
+                    .navigationTitle("Journey")
+            }
                 .tabItem { Label("Journey", systemImage: "map") }
                 .tag(FilaAcasa.journey)
 
@@ -28,53 +36,40 @@ struct EcranAcasa: View {
                 .tabItem { Label("Setari", systemImage: "gearshape") }
                 .tag(FilaAcasa.setari)
         }
-        .tint(.primary)
-        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
+        .tint(.accentColor)
+        .background(CuloriHabitQuest.fundalPrincipal.ignoresSafeArea())
     }
 
     private var paginaSat: some View {
         GeometryReader { geometrie in
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Habit Quest")
-                    .font(.largeTitle.weight(.bold))
-                    .foregroundStyle(.primary)
-                    .padding(.top, 12)
+            VStack(spacing: 12) {
+                Image("IlustratieSatAcasa")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: min(max(geometrie.size.height * 0.58, 280), 420))
+                    .background(CuloriHabitQuest.fundalIlustratie)
+                    .accessibilityHidden(true)
 
-                Spacer(minLength: 20)
+                Text("Aici va creste satul tau")
+                    .font(.title3)
+                    .foregroundStyle(CuloriHabitQuest.textSecundar)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
 
-                VStack(spacing: 8) {
-                    Image("IlustratieSatAcasa")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: min(geometrie.size.height * 0.43, 330))
-                        .padding(8)
-                        .background(.white, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
-                        .accessibilityHidden(true)
-
-                    Text("Sat")
-                        .font(.system(size: 52, weight: .bold))
-                        .foregroundStyle(.primary)
-
-                    Text("Aici va creste satul tau")
-                        .font(.title3)
-                        .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity)
-
-                Spacer()
+                Spacer(minLength: 0)
             }
-            .padding(.horizontal, 24)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(uiColor: .systemBackground))
+            .background(CuloriHabitQuest.fundalPrincipal)
         }
     }
 
-    private func ecranCuTitlu(_ titlu: String) -> some View {
-        Text(titlu)
-            .font(.title2)
-            .foregroundStyle(.primary)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(uiColor: .systemBackground))
+    private var paginaJourney: some View {
+        ContentUnavailableView(
+            "Harta va aparea aici",
+            systemImage: "map"
+        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(CuloriHabitQuest.fundalPrincipal)
     }
 }

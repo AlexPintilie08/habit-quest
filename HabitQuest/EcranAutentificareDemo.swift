@@ -12,26 +12,26 @@ struct EcranAutentificareDemo: View {
                         .scaledToFit()
                         .frame(maxWidth: .infinity)
                         .frame(height: min(geometrie.size.height * 0.28, 230))
-                        .padding(8)
-                        .background(.white, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                        .background(CuloriHabitQuest.fundalIlustratie)
+                        .padding(.horizontal, -24)
                         .accessibilityHidden(true)
 
                     VStack(spacing: 4) {
                         Text("Habit Quest")
-                            .font(.system(size: 42, weight: .bold))
-                            .foregroundStyle(.primary)
+                            .font(.largeTitle.weight(.bold))
+                            .foregroundStyle(CuloriHabitQuest.textPrincipal)
 
                         Text("Aventura ta incepe aici")
-                            .font(.title3)
-                            .foregroundStyle(.secondary)
+                            .font(.body)
+                            .foregroundStyle(CuloriHabitQuest.textSecundar)
                     }
                     .padding(.bottom, 22)
 
-                    VStack(spacing: 10) {
-                        butonIndisponibil("Continue with Apple", sigla: nil, simbol: "apple.logo")
-                        butonIndisponibil("Continue with Google", sigla: "SiglaGoogle")
-                        butonIndisponibil("Continue with Facebook", sigla: "SiglaFacebook")
-                        butonIndisponibil("Sign in with Microsoft", sigla: "SiglaMicrosoft")
+                    VStack(spacing: 4) {
+                        randIndisponibil("Continue with Apple")
+                        randIndisponibil("Continue with Google")
+                        randIndisponibil("Continue with Facebook")
+                        randIndisponibil("Sign in with Microsoft")
                     }
 
                     butonLoginDemo
@@ -45,94 +45,34 @@ struct EcranAutentificareDemo: View {
             }
             .scrollIndicators(.hidden)
         }
-        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
+        .background(CuloriHabitQuest.fundalPrincipal.ignoresSafeArea())
     }
 
     private var butonLoginDemo: some View {
         Button(action: autentificaDemo) {
-            HStack(spacing: 16) {
-                Image(systemName: "building.2.fill")
-                    .font(.system(size: 25, weight: .medium))
-                    .frame(width: 46, height: 46)
-
-                Rectangle()
-                    .fill(Color(uiColor: .systemBackground).opacity(0.3))
-                    .frame(width: 1, height: 38)
-
-                Text("Login Demo")
-                    .font(.system(size: 21, weight: .semibold))
-
-                Spacer()
-
-                Image(systemName: "arrow.right")
-                    .font(.system(size: 20, weight: .medium))
-            }
-            .foregroundStyle(Color(uiColor: .systemBackground))
-            .padding(.horizontal, 16)
-            .frame(maxWidth: .infinity)
-            .frame(height: 76)
-            .background(Color.primary, in: RoundedRectangle(cornerRadius: 24))
+            Label("Login Demo", systemImage: "house.fill")
+                .frame(maxWidth: .infinity)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.borderedProminent)
+        .controlSize(.large)
+        .tint(CuloriHabitQuest.albastruInteractiune)
+        .foregroundStyle(CuloriHabitQuest.textPeAccent)
     }
 
-    private func butonIndisponibil(_ titlu: String, sigla: String?, simbol: String? = nil) -> some View {
-        Button {} label: {
-            HStack(spacing: 14) {
-                Group {
-                    if let sigla {
-                        Image(sigla)
-                            .resizable()
-                            .scaledToFit()
-                            .padding(4)
-                    } else if let simbol {
-                        Image(systemName: simbol)
-                            .resizable()
-                            .scaledToFit()
-                            .padding(11)
-                            .foregroundStyle(.primary)
-                    }
-                }
-                .frame(width: 44, height: 44)
-                .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 14))
+    private func randIndisponibil(_ titlu: String) -> some View {
+        HStack(spacing: 12) {
+            Text(titlu)
+                .font(.body)
+                .foregroundStyle(CuloriHabitQuest.textSecundar)
 
-                Rectangle()
-                    .fill(Color.primary.opacity(0.1))
-                    .frame(width: 1, height: 44)
+            Spacer(minLength: 8)
 
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(titlu)
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(Color.primary.opacity(0.82))
-
-                    Text("Indisponibil momentan")
-                        .font(.system(size: 14))
-                        .foregroundStyle(.secondary)
-                }
-
-                Spacer(minLength: 4)
-
-                Image(systemName: "lock")
-                    .font(.system(size: 19, weight: .regular))
-                    .foregroundStyle(.secondary)
-            }
-            .padding(.horizontal, 14)
-            .frame(maxWidth: .infinity)
-            .frame(height: 72)
-            .background(Color.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 22))
-            .overlay {
-                RoundedRectangle(cornerRadius: 22)
-                    .stroke(Color.primary.opacity(0.06), lineWidth: 1)
-            }
+            Text("Indisponibil")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
-        .buttonStyle(StilButonInactiv())
-        .disabled(true)
+        .frame(maxWidth: .infinity, minHeight: 44)
+        .accessibilityElement(children: .combine)
         .accessibilityHint("Metoda de autentificare indisponibila")
-    }
-}
-
-private struct StilButonInactiv: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
     }
 }

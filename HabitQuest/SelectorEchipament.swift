@@ -47,6 +47,8 @@ struct SelectorEchipament: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(CuloriHabitQuest.fundalPrincipal)
             .navigationTitle(slot.titlu)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

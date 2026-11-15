@@ -46,54 +46,49 @@ struct EcranBunVenit: View {
     ]
 
     var body: some View {
-        ZStack {
-            TabView(selection: $paginaActiva) {
-                ForEach(slideuri) { slide in
-                    ContinutSlideBunVenit(slide: slide)
-                        .tag(slide.id)
-                }
+        TabView(selection: $paginaActiva) {
+            ForEach(slideuri) { slide in
+                ContinutSlideBunVenit(slide: slide)
+                    .tag(slide.id)
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+        }
+        .tabViewStyle(.page(indexDisplayMode: .never))
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            HStack(alignment: .bottom) {
+                Button(action: deschideAutentificarea) {
+                    Text("Skip")
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.large)
 
-            VStack {
-                Spacer(minLength: 0)
+                Spacer(minLength: 20)
 
-                HStack(alignment: .bottom) {
-                    Button(action: deschideAutentificarea) {
-                        Text("Skip")
-                            .font(.system(size: 17, weight: .medium))
-                            .foregroundStyle(.primary)
-                            .padding(.horizontal, 22)
-                            .frame(minHeight: 48)
-                            .background(Color.primary.opacity(0.06), in: Capsule())
+                VStack(alignment: .trailing, spacing: 14) {
+                    Button(action: treciLaUrmatorulSlide) {
+                        Image(systemName: "arrow.right")
+                            .font(.title3.weight(.semibold))
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .tint(CuloriHabitQuest.albastruInteractiune)
+                    .clipShape(Circle())
+                    .frame(width: 56, height: 56)
+                    .accessibilityLabel("Urmatorul slide")
 
-                    Spacer(minLength: 20)
-
-                    VStack(alignment: .trailing, spacing: 14) {
-                        Button(action: treciLaUrmatorulSlide) {
-                            Image(systemName: "arrow.right")
-                                .font(.system(size: 21, weight: .medium))
-                                .foregroundStyle(Color(uiColor: .systemBackground))
-                                .frame(width: 52, height: 52)
-                                .background(Color.primary, in: Circle())
-                        }
-                        .accessibilityLabel("Urmatorul slide")
-
-                        IndicatorPaginare(
-                            paginaActiva: paginaActiva,
-                            numarPagini: slideuri.count,
-                            progres: progresActiv
-                        )
-                    }
+                    IndicatorPaginare(
+                        paginaActiva: paginaActiva,
+                        numarPagini: slideuri.count,
+                        progres: progresActiv
+                    )
                 }
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 12)
+            .padding(.top, 8)
+            .background(CuloriHabitQuest.fundalPrincipal)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
+        .background(CuloriHabitQuest.fundalPrincipal.ignoresSafeArea())
         .task(id: paginaActiva) {
             progresActiv = 0
             withAnimation(.linear(duration: 5)) {

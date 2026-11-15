@@ -26,5 +26,6 @@ struct FluxAplicatie: View {
             }
         }
         .preferredColorScheme(TemaAplicatie(rawValue: temaAplicatie)?.schemaCulori)
+        .background(CuloriHabitQuest.fundalPrincipal.ignoresSafeArea())
     }
 }

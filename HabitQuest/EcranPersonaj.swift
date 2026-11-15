@@ -12,13 +12,6 @@ struct EcranPersonaj: View {
     @State private var afiseazaEditareNume = false
     @State private var numeTemporar = ""
 
-    private var configuratie: ConfiguratiePersonaj {
-        ConfiguratiePersonaj(
-            nuantaPar: personaj.aspect.nuantaPar,
-            nuantaLama: personaj.aspect.nuantaLama
-        )
-    }
-
     private var animatiaEstePermisa: Bool {
         esteActiv && animatiiActive && !reduceMotion && stareAplicatie == .active
     }
@@ -34,10 +27,8 @@ struct EcranPersonaj: View {
                             personaj: personaj,
                             animatiePermisa: animatiaEstePermisa
                         )
-                        .frame(height: min(max(geometrie.size.height * 0.48, 300), 440))
+                        .frame(height: min(max(geometrie.size.height * 0.42, 280), 390))
                         .frame(maxWidth: .infinity)
-                        .padding(8)
-                        .background(.white, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
 
                         Picker("Categorie", selection: $categorie) {
                             ForEach(CategoriaPersonalizare.allCases) { optiune in
@@ -56,7 +47,7 @@ struct EcranPersonaj: View {
                 }
                 .scrollIndicators(.hidden)
             }
-            .background(Color(uiColor: .systemBackground))
+            .background(CuloriHabitQuest.fundalPrincipal)
             .navigationTitle("Character")
             .navigationBarTitleDisplayMode(.inline)
             .alert("Editeaza numele eroului", isPresented: $afiseazaEditareNume) {
@@ -119,31 +110,19 @@ struct EcranPersonaj: View {
     private var optiuniCategorii: some View {
         switch categorie {
         case .par:
-            HStack(spacing: 10) {
+            Picker("Culoarea parului", selection: $personaj.aspect.nuantaPar) {
                 ForEach(NuantaPar.allCases) { nuanta in
-                    butonVarianta(
-                        titlu: nuanta.titlu,
-                        swatch: nuanta.culoareSwatch,
-                        selectata: configuratie.nuantaPar == nuanta
-                    ) {
-                        personaj.aspect.nuantaPar = nuanta
-                    }
+                    Text(nuanta.titlu).tag(nuanta)
                 }
             }
-            .frame(maxWidth: .infinity)
+            .pickerStyle(.segmented)
         case .echipament:
-            HStack(spacing: 10) {
+            Picker("Culoarea lamei", selection: $personaj.aspect.nuantaLama) {
                 ForEach(NuantaLama.allCases) { nuanta in
-                    butonVarianta(
-                        titlu: nuanta.titlu,
-                        swatch: nuanta.culoareSwatch,
-                        selectata: configuratie.nuantaLama == nuanta
-                    ) {
-                        personaj.aspect.nuantaLama = nuanta
-                    }
+                    Text(nuanta.titlu).tag(nuanta)
                 }
             }
-            .frame(maxWidth: .infinity)
+            .pickerStyle(.segmented)
         case .haine, .mantie:
             Label("Momentan indisponibil", systemImage: "lock")
                 .font(.subheadline)
@@ -158,34 +137,38 @@ struct EcranPersonaj: View {
                 .font(.headline)
                 .foregroundStyle(.primary)
 
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+            VStack(spacing: 0) {
                 ForEach(SlotEchipament.allCases) { slot in
                     Button {
                         slotSelectat = slot
                     } label: {
-                        VStack(alignment: .leading, spacing: 8) {
+                        HStack(spacing: 12) {
                             Label(slot.titlu, systemImage: slot.simbol)
-                                .font(.subheadline.weight(.medium))
+                                .font(.body)
                                 .foregroundStyle(.primary)
                                 .lineLimit(1)
-                                .minimumScaleFactor(0.85)
+
+                            Spacer(minLength: 8)
 
                             Text(numeEchipat(in: slot))
-                                .font(.caption)
+                                .font(.subheadline)
                                 .foregroundStyle(.secondary)
                                 .lineLimit(1)
-                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                            Image(systemName: "chevron.right")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(.tertiary)
                         }
-                        .padding(12)
-                        .frame(maxWidth: .infinity, minHeight: 70, alignment: .leading)
-                        .background(
-                            Color(uiColor: .secondarySystemBackground),
-                            in: RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        )
-                        .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        .frame(minHeight: 52)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .accessibilityHint("Deschide obiectele disponibile pentru \(slot.titlu)")
+
+                    if slot != SlotEchipament.allCases.last {
+                        Divider()
+                            .padding(.leading, 32)
+                    }
                 }
             }
         }
@@ -207,50 +190,6 @@ struct EcranPersonaj: View {
         }
 
         return "Ilustratia de baza"
-    }
-
-    private func butonVarianta(
-        titlu: String,
-        swatch: Color,
-        selectata: Bool,
-        actiune: @escaping () -> Void
-    ) -> some View {
-        Button(action: actiune) {
-            HStack(spacing: 8) {
-                Circle()
-                    .fill(swatch)
-                    .frame(width: 22, height: 22)
-                    .overlay {
-                        Circle().strokeBorder(Color.primary.opacity(0.12), lineWidth: 1)
-                    }
-                    .overlay {
-                        if selectata {
-                            Image(systemName: "checkmark")
-                                .font(.system(size: 11, weight: .bold))
-                                .foregroundStyle(Color(uiColor: .systemBackground))
-                                .frame(width: 20, height: 20)
-                                .background(Color.primary, in: Circle())
-                        }
-                    }
-
-                Text(titlu)
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.primary)
-            }
-            .padding(.horizontal, 12)
-            .frame(minHeight: 48)
-            .background(
-                selectata ? Color.accentColor.opacity(0.12) : Color.secondary.opacity(0.08),
-                in: RoundedRectangle(cornerRadius: 16, style: .continuous)
-            )
-            .overlay {
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .strokeBorder(selectata ? Color.accentColor : .clear, lineWidth: 1)
-            }
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(titlu)
-        .accessibilityAddTraits(selectata ? .isSelected : [])
     }
 
     private func salveazaNumele() {
