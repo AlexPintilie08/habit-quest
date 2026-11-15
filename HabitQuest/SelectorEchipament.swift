@@ -64,7 +64,7 @@ struct SelectorEchipament: View {
 
     private var mesajGol: String {
         if slot == .par {
-            return "Nu sunt coafuri disponibile. Poti schimba nuanta parului din optiunea Par."
+            return "Nu sunt coafuri disponibile. Poti schimba nuanta parului din panoul Aspect."
         }
 
         return "Obiectele pentru acest slot vor aparea aici cand vor fi adaugate in catalog."

@@ -223,6 +223,9 @@ struct Personaj: Codable, Equatable, Identifiable {
     let id: String
     var nume: String
     var clasa: ClasaPersonaj
+    var gen: GenPersonaj
+    var trasaturi: TrasaturiPersonaj
+    var paleta: PaletaPersonaj
     var aspect: AspectPersonaj
     var echipament: ConfiguratieEchipament
 
@@ -232,14 +235,45 @@ struct Personaj: Codable, Equatable, Identifiable {
         id: String = Personaj.idPrincipal,
         nume: String = "Aventurier",
         clasa: ClasaPersonaj = .razboinic,
+        gen: GenPersonaj = .masculin,
+        trasaturi: TrasaturiPersonaj = .init(),
+        paleta: PaletaPersonaj = .init(),
         aspect: AspectPersonaj = .implicit,
         echipament: ConfiguratieEchipament = .initiala
     ) {
         self.id = id
         self.nume = nume
         self.clasa = clasa
+        self.gen = gen
+        self.trasaturi = trasaturi
+        self.paleta = paleta
         self.aspect = aspect
         self.echipament = echipament.normalizata
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case nume
+        case clasa
+        case gen
+        case trasaturi
+        case paleta
+        case aspect
+        case echipament
+    }
+
+    init(from decoder: Decoder) throws {
+        let valori = try decoder.container(keyedBy: CodingKeys.self)
+        self.init(
+            id: try valori.decodeIfPresent(String.self, forKey: .id) ?? Personaj.idPrincipal,
+            nume: try valori.decodeIfPresent(String.self, forKey: .nume) ?? "Aventurier",
+            clasa: try valori.decodeIfPresent(ClasaPersonaj.self, forKey: .clasa) ?? .razboinic,
+            gen: try valori.decodeIfPresent(GenPersonaj.self, forKey: .gen) ?? .masculin,
+            trasaturi: try valori.decodeIfPresent(TrasaturiPersonaj.self, forKey: .trasaturi) ?? .init(),
+            paleta: try valori.decodeIfPresent(PaletaPersonaj.self, forKey: .paleta) ?? .init(),
+            aspect: try valori.decodeIfPresent(AspectPersonaj.self, forKey: .aspect) ?? .implicit,
+            echipament: try valori.decodeIfPresent(ConfiguratieEchipament.self, forKey: .echipament) ?? .initiala
+        )
     }
 
     var idCorp: String {
