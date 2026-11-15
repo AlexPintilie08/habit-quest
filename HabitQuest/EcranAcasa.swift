@@ -68,18 +68,18 @@ struct EcranAcasa: View {
 
     private var paginaSat: some View {
         GeometryReader { geometrie in
-            let latimeImagine = min(
-                min(geometrie.size.height * 0.48, 360) * 640 / 520,
-                geometrie.size.width - 48
+            let inaltimeImagine = min(
+                min(geometrie.size.height * 0.48, 360),
+                (geometrie.size.width - 48) * 1402 / 1122
             )
 
             VStack(spacing: 16) {
                 Spacer(minLength: 0)
 
-                Image("IlustratieSatAcasa")
+                Image("IlustratieSatPastoral")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: latimeImagine, height: latimeImagine * 520 / 640)
+                    .frame(width: inaltimeImagine * 1122 / 1402, height: inaltimeImagine)
                     .accessibilityHidden(true)
 
                 Text("Aici va creste satul tau")

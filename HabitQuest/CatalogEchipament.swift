@@ -19,7 +19,7 @@ enum CatalogEchipament {
             slot: .corp,
             descriere: "Ilustratia actuala a personajului.",
             asseturiVizuale: [
-                ReferintaAsset(identificator: "PersonajBaza", ordine: 0)
+                ReferintaAsset(identificator: "PersonajPlaceholderErou", ordine: 0)
             ],
             compatibilitate: .oricare
         ),

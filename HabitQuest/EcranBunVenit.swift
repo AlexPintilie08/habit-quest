@@ -11,37 +11,37 @@ struct EcranBunVenit: View {
             id: 0,
             titlu: "Bun venit in Habit Quest",
             descriere: "Transforma-ti obiceiurile intr-o aventura. Construieste-ti propria lume si evolueaza in fiecare zi.",
-            ilustratie: "IlustratieBunVenit"
+            ilustratie: "IlustratiePoartaInsula"
         ),
         SlideBunVenit(
             id: 1,
             titlu: "Fiecare zi conteaza",
             descriere: "Completeaza misiuni, castiga XP, avanseaza pe harta si deblocheaza recompense.",
-            ilustratie: "IlustratieZi"
+            ilustratie: "IlustratieHartaAventura"
         ),
         SlideBunVenit(
             id: 2,
             titlu: "Creeaza-ti eroul",
             descriere: "Personalizeaza-ti personajul, creste in nivel si deblocheaza echipamente si obiecte speciale.",
-            ilustratie: "IlustratieErou"
+            ilustratie: "IlustratieAventurierInsula"
         ),
         SlideBunVenit(
             id: 3,
             titlu: "Construieste-ti satul",
             descriere: "Fiecare obicei bun aduce un nou locuitor. Ajuta-l sa evolueze si transforma satul intr-o lume unica.",
-            ilustratie: "IlustratieSat"
+            ilustratie: "IlustratieSatNori"
         ),
         SlideBunVenit(
             id: 4,
             titlu: "Obiceiurile bune prind viata",
             descriere: "Cititul, sportul sau studiul devin misiuni pentru locuitorii satului tau.",
-            ilustratie: "IlustratieObiceiuriBune"
+            ilustratie: "IlustratieSatMedieval"
         ),
         SlideBunVenit(
             id: 5,
             titlu: "Invinge obiceiurile rele",
             descriere: "Transforma obiceiurile de care vrei sa scapi in adversari. Progresul tau te ajuta sa ii invingi.",
-            ilustratie: "IlustratieObiceiuriRele"
+            ilustratie: "IlustratieInsulaEroica"
         )
     ]
 

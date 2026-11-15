@@ -24,7 +24,7 @@ struct ContinutSlideBunVenit: View {
                     Image(slide.ilustratie)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: dimensiuneImagine * 941 / 950, height: dimensiuneImagine)
+                        .frame(width: dimensiuneImagine * 1122 / 1402, height: dimensiuneImagine)
                         .accessibilityHidden(true)
 
                     VStack(spacing: 12) {

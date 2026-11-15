@@ -5,17 +5,17 @@ struct EcranAutentificareDemo: View {
 
     var body: some View {
         GeometryReader { geometrie in
-            let inaltimeImagine = min(max(geometrie.size.height * 0.24, 140), 210)
-            let latimeImagine = min(inaltimeImagine * 941 / 530, geometrie.size.width - 48)
+            let inaltimeImagine = min(max(geometrie.size.height * 0.34, 180), 280)
+            let latimeImagine = min(inaltimeImagine * 1122 / 1402, geometrie.size.width - 48)
 
             ScrollView {
                 VStack(spacing: 0) {
                     Spacer(minLength: 0)
 
-                    Image("IlustratieAutentificare")
+                    Image("IlustratieCastelPoveste")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: latimeImagine, height: latimeImagine * 530 / 941)
+                        .frame(width: latimeImagine, height: latimeImagine * 1402 / 1122)
                         .accessibilityHidden(true)
 
                     VStack(spacing: 4) {
