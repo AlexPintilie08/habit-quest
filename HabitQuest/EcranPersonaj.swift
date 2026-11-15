@@ -3,20 +3,19 @@ import SwiftUI
 struct EcranPersonaj: View {
     let esteActiv: Bool
 
-    @AppStorage("numeErou") private var numeErou = "Aventurier"
-    @AppStorage("nuantaPar") private var nuantaParSalvata = NuantaPar.castaniu.rawValue
-    @AppStorage("nuantaLama") private var nuantaLamaSalvata = NuantaLama.otel.rawValue
+    @State private var personaj = StocarePersonaj.incarca()
     @AppStorage("animatiiActive") private var animatiiActive = true
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var stareAplicatie
     @State private var categorie = CategoriaPersonalizare.par
+    @State private var slotSelectat: SlotEchipament?
     @State private var afiseazaEditareNume = false
     @State private var numeTemporar = ""
 
     private var configuratie: ConfiguratiePersonaj {
         ConfiguratiePersonaj(
-            nuantaPar: NuantaPar(rawValue: nuantaParSalvata) ?? .castaniu,
-            nuantaLama: NuantaLama(rawValue: nuantaLamaSalvata) ?? .otel
+            nuantaPar: personaj.aspect.nuantaPar,
+            nuantaLama: personaj.aspect.nuantaLama
         )
     }
 
@@ -32,8 +31,7 @@ struct EcranPersonaj: View {
                         antet
 
                         RandarePersonaj(
-                            configuratie: configuratie,
-                            numeErou: numeErou,
+                            personaj: personaj,
                             animatiePermisa: animatiaEstePermisa
                         )
                         .frame(height: min(max(geometrie.size.height * 0.48, 300), 440))
@@ -49,6 +47,7 @@ struct EcranPersonaj: View {
                         .pickerStyle(.segmented)
 
                         optiuniCategorii
+                        zonaEchipament
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
@@ -68,29 +67,50 @@ struct EcranPersonaj: View {
             } message: {
                 Text("Alege numele care va aparea pe ecranul Character.")
             }
+            .sheet(item: $slotSelectat) { slot in
+                SelectorEchipament(
+                    slot: slot,
+                    personaj: personaj,
+                    laEchipare: { obiect in
+                        OperatiiEchipare.echipeaza(obiect, pe: &personaj)
+                    },
+                    laDezechipare: {
+                        OperatiiEchipare.dezechipeaza(din: slot, dePe: &personaj)
+                    }
+                )
+            }
+            .onChange(of: personaj) { _, personajActualizat in
+                StocarePersonaj.salveaza(personajActualizat)
+            }
         }
     }
 
     private var antet: some View {
-        HStack(spacing: 10) {
-            Text(numeErou)
-                .font(.title2.weight(.semibold))
-                .foregroundStyle(.primary)
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 10) {
+                Text(personaj.nume)
+                    .font(.title2.weight(.semibold))
+                    .foregroundStyle(.primary)
 
-            Button {
-                numeTemporar = numeErou
-                afiseazaEditareNume = true
-            } label: {
-                Image(systemName: "pencil")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
-                    .frame(width: 44, height: 44)
-                    .contentShape(Circle())
+                Button {
+                    numeTemporar = personaj.nume
+                    afiseazaEditareNume = true
+                } label: {
+                    Image(systemName: "pencil")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .frame(width: 44, height: 44)
+                        .contentShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Editeaza numele eroului")
+
+                Spacer()
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Editeaza numele eroului")
 
-            Spacer()
+            Label(personaj.clasa.titlu, systemImage: "shield.lefthalf.filled")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
     }
@@ -106,7 +126,7 @@ struct EcranPersonaj: View {
                         swatch: nuanta.culoareSwatch,
                         selectata: configuratie.nuantaPar == nuanta
                     ) {
-                        nuantaParSalvata = nuanta.rawValue
+                        personaj.aspect.nuantaPar = nuanta
                     }
                 }
             }
@@ -119,7 +139,7 @@ struct EcranPersonaj: View {
                         swatch: nuanta.culoareSwatch,
                         selectata: configuratie.nuantaLama == nuanta
                     ) {
-                        nuantaLamaSalvata = nuanta.rawValue
+                        personaj.aspect.nuantaLama = nuanta
                     }
                 }
             }
@@ -130,6 +150,63 @@ struct EcranPersonaj: View {
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, minHeight: 48)
         }
+    }
+
+    private var zonaEchipament: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Echipament")
+                .font(.headline)
+                .foregroundStyle(.primary)
+
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                ForEach(SlotEchipament.allCases) { slot in
+                    Button {
+                        slotSelectat = slot
+                    } label: {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label(slot.titlu, systemImage: slot.simbol)
+                                .font(.subheadline.weight(.medium))
+                                .foregroundStyle(.primary)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.85)
+
+                            Text(numeEchipat(in: slot))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .padding(12)
+                        .frame(maxWidth: .infinity, minHeight: 70, alignment: .leading)
+                        .background(
+                            Color(uiColor: .secondarySystemBackground),
+                            in: RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        )
+                        .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHint("Deschide obiectele disponibile pentru \(slot.titlu)")
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func numeEchipat(in slot: SlotEchipament) -> String {
+        if slot == .par {
+            return personaj.aspect.nuantaPar.titlu
+        }
+
+        if let obiect = personaj.echipament.obiect(in: slot) {
+            return CatalogEchipament.obiect(cu: obiect.identificatorObiect)?.nume
+                ?? "Obiect indisponibil"
+        }
+
+        if slot == .accesoriu || slot == .armaSecundara {
+            return "Liber"
+        }
+
+        return "Ilustratia de baza"
     }
 
     private func butonVarianta(
@@ -179,55 +256,7 @@ struct EcranPersonaj: View {
     private func salveazaNumele() {
         let nume = numeTemporar.trimmingCharacters(in: .whitespacesAndNewlines)
         if !nume.isEmpty {
-            numeErou = nume
+            personaj.nume = nume
         }
-    }
-}
-
-private struct RandarePersonaj: View {
-    let configuratie: ConfiguratiePersonaj
-    let numeErou: String
-    let animatiePermisa: Bool
-
-    var body: some View {
-        if animatiePermisa {
-            straturi
-                .phaseAnimator([false, true]) { continut, faza in
-                    continut.offset(y: faza ? -1.5 : 0)
-                } animation: { _ in
-                    .easeInOut(duration: 2.4)
-                }
-        } else {
-            straturi
-        }
-    }
-
-    private var straturi: some View {
-        ZStack {
-            Image("PersonajBaza")
-                .resizable()
-                .scaledToFit()
-
-            if let culoare = configuratie.nuantaPar.culoareSuprapunere {
-                Image("MascaPar")
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundStyle(culoare)
-                    .blendMode(.color)
-            }
-
-            if let culoare = configuratie.nuantaLama.culoareSuprapunere {
-                Image("MascaLama")
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundStyle(culoare)
-                    .blendMode(.color)
-            }
-        }
-        .compositingGroup()
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Personajul \(numeErou)")
     }
 }

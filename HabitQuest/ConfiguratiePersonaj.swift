@@ -18,7 +18,7 @@ enum CategoriaPersonalizare: String, CaseIterable, Identifiable {
     }
 }
 
-enum NuantaPar: String, CaseIterable, Identifiable {
+enum NuantaPar: String, CaseIterable, Codable, Identifiable {
     case castaniu
     case auriu
 
@@ -46,7 +46,7 @@ enum NuantaPar: String, CaseIterable, Identifiable {
     }
 }
 
-enum NuantaLama: String, CaseIterable, Identifiable {
+enum NuantaLama: String, CaseIterable, Codable, Identifiable {
     case otel
     case azuriu
 

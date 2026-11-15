@@ -22,6 +22,12 @@
 		000000000000000000000034 = {isa = PBXBuildFile; fileRef = 000000000000000000000035; };
 		000000000000000000000036 = {isa = PBXBuildFile; fileRef = 000000000000000000000037; };
 		000000000000000000000038 = {isa = PBXBuildFile; fileRef = 000000000000000000000039; };
+		000000000000000000000041 = {isa = PBXBuildFile; fileRef = 000000000000000000000042; };
+		000000000000000000000043 = {isa = PBXBuildFile; fileRef = 000000000000000000000044; };
+		000000000000000000000045 = {isa = PBXBuildFile; fileRef = 000000000000000000000046; };
+		000000000000000000000047 = {isa = PBXBuildFile; fileRef = 000000000000000000000048; };
+		000000000000000000000049 = {isa = PBXBuildFile; fileRef = 000000000000000000000050; };
+		000000000000000000000051 = {isa = PBXBuildFile; fileRef = 000000000000000000000052; };
 		000000000000000000000003 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.swift;
@@ -44,6 +50,12 @@
 		000000000000000000000035 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcranPersonaj.swift; sourceTree = "<group>"; };
 		000000000000000000000037 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcranSetari.swift; sourceTree = "<group>"; };
 		000000000000000000000039 = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SunetTest.wav; sourceTree = "<group>"; };
+		000000000000000000000042 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelPersonaj.swift; sourceTree = "<group>"; };
+		000000000000000000000044 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogEchipament.swift; sourceTree = "<group>"; };
+		000000000000000000000046 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatiiEchipare.swift; sourceTree = "<group>"; };
+		000000000000000000000048 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocarePersonaj.swift; sourceTree = "<group>"; };
+		000000000000000000000050 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandarePersonaj.swift; sourceTree = "<group>"; };
+		000000000000000000000052 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorEchipament.swift; sourceTree = "<group>"; };
 		000000000000000000000005 = {
 			isa = PBXFileReference;
 			explicitFileType = wrapper.application;
@@ -88,6 +100,12 @@
 				000000000000000000000033,
 				000000000000000000000035,
 				000000000000000000000037,
+				000000000000000000000042,
+				000000000000000000000044,
+				000000000000000000000046,
+				000000000000000000000048,
+				000000000000000000000050,
+				000000000000000000000052,
 				000000000000000000000040,
 			);
 			path = HabitQuest;
@@ -169,6 +187,12 @@
 				000000000000000000000032,
 				000000000000000000000034,
 				000000000000000000000036,
+				000000000000000000000041,
+				000000000000000000000043,
+				000000000000000000000045,
+				000000000000000000000047,
+				000000000000000000000049,
+				000000000000000000000051,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
