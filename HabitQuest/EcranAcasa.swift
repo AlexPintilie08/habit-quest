@@ -39,9 +39,6 @@ struct EcranAcasa: View {
                 .tag(FilaAcasa.journey)
 
             EcranPersonaj(esteActiv: filaSelectata == .character)
-                .transaction { tranzactie in
-                    tranzactie.animation = nil
-                }
                 .tabItem {
                     Label(
                         "Character",
@@ -61,6 +58,7 @@ struct EcranAcasa: View {
                 }
                 .tag(FilaAcasa.setari)
         }
+        .animation(nil, value: filaSelectata == .character)
         .tint(
             filaSelectata == .journey
                 ? CuloriHabitQuest.accentChihlimbar
