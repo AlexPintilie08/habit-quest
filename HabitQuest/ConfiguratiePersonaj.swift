@@ -1,23 +1,5 @@
 import SwiftUI
 
-enum CategoriaPersonalizare: String, CaseIterable, Identifiable {
-    case par
-    case haine
-    case mantie
-    case echipament
-
-    var id: String { rawValue }
-
-    var titlu: String {
-        switch self {
-        case .par: "Par"
-        case .haine: "Haine"
-        case .mantie: "Mantie"
-        case .echipament: "Echipament"
-        }
-    }
-}
-
 enum NuantaPar: String, CaseIterable, Codable, Identifiable {
     case castaniu
     case auriu
@@ -179,6 +161,17 @@ enum CuloarePaleta: String, CaseIterable, Codable, Identifiable {
         }
     }
 
+    var codHex: String {
+        switch self {
+        case .ivoriu: "E8D7B6"
+        case .maro: "6E452E"
+        case .rosu: "BD433B"
+        case .verde: "4F7A4D"
+        case .albastru: "406DAA"
+        case .auriu: "D49A2D"
+        }
+    }
+
     var culoare: Color {
         switch self {
         case .ivoriu: Color(red: 0.91, green: 0.84, blue: 0.70)
@@ -189,20 +182,6 @@ enum CuloarePaleta: String, CaseIterable, Codable, Identifiable {
         case .auriu: Color(red: 0.83, green: 0.57, blue: 0.17)
         }
     }
-}
-
-struct TrasaturiPersonaj: Codable, Equatable {
-    var inaltime = 1.0
-    var tonPiele: TonPiele = .deschis
-    var coafura: Coafura = .ondulata
-    var formaOchi: FormaOchi = .migdalati
-    var culoareOchi: CuloareOchi = .caprui
-}
-
-struct PaletaPersonaj: Codable, Equatable {
-    var primara: CuloarePaleta = .ivoriu
-    var secundara: CuloarePaleta = .maro
-    var accent: CuloarePaleta = .rosu
 }
 
 struct ConfiguratiePersonaj: Equatable {

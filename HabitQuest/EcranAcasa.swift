@@ -39,6 +39,9 @@ struct EcranAcasa: View {
                 .tag(FilaAcasa.journey)
 
             EcranPersonaj(esteActiv: filaSelectata == .character)
+                .transaction { tranzactie in
+                    tranzactie.animation = nil
+                }
                 .tabItem {
                     Label(
                         "Character",

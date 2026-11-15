@@ -4,7 +4,8 @@ struct EcranPersonaj: View {
     let esteActiv: Bool
 
     @State private var personaj = StocarePersonaj.incarca()
-    @State private var panouDeschis: PanouPersonaj?
+    @State private var afiseazaAspect = false
+    @State private var afiseazaEchipament = false
     @AppStorage("animatiiActive") private var animatiiActive = true
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var stareAplicatie
@@ -15,57 +16,56 @@ struct EcranPersonaj: View {
 
     var body: some View {
         NavigationStack {
-            GeometryReader { geometrie in
-                VStack(spacing: 8) {
-                    antet
-                        .padding(.top, 8)
+            VStack(spacing: 8) {
+                antet
+                    .padding(.top, 8)
 
-                    Spacer(minLength: 0)
+                Spacer(minLength: 0)
 
-                    RandarePersonaj(
-                        personaj: personaj,
-                        animatiePermisa: animatiaEstePermisa
-                    )
-                    .frame(height: min(max(geometrie.size.height * 0.64, 250), 460))
-                    .frame(maxWidth: .infinity)
-
-                    Spacer(minLength: 8)
-
-                    HStack(spacing: 12) {
-                        Button {
-                            panouDeschis = .aspect
-                        } label: {
-                            Label("Aspect", systemImage: "person.crop.circle")
-                                .frame(maxWidth: .infinity)
-                        }
-                        .buttonStyle(.bordered)
-                        .controlSize(.large)
-
-                        Button {
-                            panouDeschis = .echipament
-                        } label: {
-                            Label("Echipament", systemImage: "shield.lefthalf.filled")
-                                .frame(maxWidth: .infinity)
-                        }
-                        .buttonStyle(.bordered)
-                        .controlSize(.large)
-                    }
-                    .padding(.bottom, 12)
-                }
-                .padding(.horizontal, 20)
-                .frame(maxWidth: 520)
+                RandarePersonaj(
+                    personaj: personaj,
+                    animatiePermisa: animatiaEstePermisa
+                )
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .layoutPriority(1)
+
+                Spacer(minLength: 8)
+
+                HStack(spacing: 12) {
+                    Button {
+                        afiseazaAspect = true
+                    } label: {
+                        Label("Aspect", systemImage: "person.crop.circle")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
+
+                    Button {
+                        afiseazaEchipament = true
+                    } label: {
+                        Label("Echipament", systemImage: "shield.lefthalf.filled")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
+                }
+                .padding(.bottom, 12)
             }
+            .padding(.horizontal, 20)
+            .frame(maxWidth: 520)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(CuloriHabitQuest.fundalPrincipal)
             .navigationTitle("Character")
             .navigationBarTitleDisplayMode(.inline)
-            .sheet(item: $panouDeschis) { panou in
-                switch panou {
-                case .aspect:
-                    PanouAspectPersonaj(personaj: $personaj)
-                case .echipament:
-                    PanouEchipamentPersonaj(personaj: $personaj)
-                }
+            .fullScreenCover(isPresented: $afiseazaAspect) {
+                PanouAspectPersonaj(
+                    personaj: $personaj,
+                    animatiePermisa: animatiaEstePermisa
+                )
+            }
+            .sheet(isPresented: $afiseazaEchipament) {
+                PanouEchipamentPersonaj(personaj: $personaj)
             }
             .onChange(of: personaj) { _, personajActualizat in
                 StocarePersonaj.salveaza(personajActualizat)
@@ -83,7 +83,7 @@ struct EcranPersonaj: View {
                     .minimumScaleFactor(0.8)
 
                 Button {
-                    panouDeschis = .aspect
+                    afiseazaAspect = true
                 } label: {
                     Image(systemName: "pencil")
                         .font(.subheadline.weight(.medium))
@@ -101,11 +101,4 @@ struct EcranPersonaj: View {
         }
         .frame(maxWidth: .infinity)
     }
-}
-
-private enum PanouPersonaj: String, Identifiable {
-    case aspect
-    case echipament
-
-    var id: String { rawValue }
 }

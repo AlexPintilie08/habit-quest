@@ -4,19 +4,22 @@ import UIKit
 struct RandarePersonaj: View {
     let personaj: Personaj
     let animatiePermisa: Bool
+    var incadrare: IncadrarePersonaj = .completa
     var stare: StarePersonaj = .idle
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
-        if animatiePermisa {
-            straturi
-                .phaseAnimator([false, true]) { continut, faza in
-                    continut.offset(y: faza ? -1.5 : 0)
-                } animation: { _ in
-                    .easeInOut(duration: 2.4)
-                }
-        } else {
-            straturi
-        }
+        straturi
+            .phaseAnimator([false, true]) { continut, faza in
+                continut.offset(y: animatiePermisa && faza ? -1.5 : 0)
+            } animation: { _ in
+                animatiePermisa ? .easeInOut(duration: 2.4) : nil
+            }
+            .animation(
+                reduceMotion ? nil : .easeInOut(duration: 0.22),
+                value: incadrare
+            )
     }
 
     private var straturi: some View {
@@ -28,7 +31,11 @@ struct RandarePersonaj: View {
                     }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(width: geometrie.size.width, height: geometrie.size.height)
+            .scaleEffect(incadrare == .fata ? 2.1 : 1, anchor: .center)
+            .offset(y: incadrare == .fata ? geometrie.size.height * 0.74 : 0)
+            .frame(width: geometrie.size.width, height: geometrie.size.height)
+            .clipped()
         }
         .compositingGroup()
         .accessibilityElement(children: .ignore)
@@ -50,7 +57,8 @@ struct RandarePersonaj: View {
             slot: .corp
         )]
 
-        if personaj.aspect.nuantaPar.culoareSuprapunere != nil {
+        if personaj.aspect.culoarePrincipalaPar != nil
+            || personaj.aspect.nuantaPar.culoareSuprapunere != nil {
             straturi.append(
                 StratRandat(
                     id: "masca-par",
@@ -63,7 +71,8 @@ struct RandarePersonaj: View {
             )
         }
 
-        if personaj.aspect.nuantaLama.culoareSuprapunere != nil {
+        if personaj.paleta.primaraActiva
+            || personaj.aspect.nuantaLama.culoareSuprapunere != nil {
             straturi.append(
                 StratRandat(
                     id: "masca-lama",
@@ -142,9 +151,49 @@ struct RandarePersonaj: View {
 
     private func culoarePentru(_ nuantare: NuantareStrat?) -> Color? {
         switch nuantare {
-        case .par: personaj.aspect.nuantaPar.culoareSuprapunere
-        case .lama: personaj.aspect.nuantaLama.culoareSuprapunere
+        case .par:
+            personaj.aspect.culoarePrincipalaPar?.culoareSwiftUI
+                ?? personaj.aspect.nuantaPar.culoareSuprapunere
+        case .lama:
+            personaj.paleta.primaraActiva
+                ? personaj.paleta.primara.culoareSwiftUI
+                : personaj.aspect.nuantaLama.culoareSuprapunere
         case nil: nil
+        }
+    }
+}
+
+extension CodCuloare {
+    var culoareSwiftUI: Color {
+        let valoare = UInt32(hex, radix: 16) ?? 0
+
+        return Color(
+            .sRGB,
+            red: Double((valoare >> 16) & 0xFF) / 255,
+            green: Double((valoare >> 8) & 0xFF) / 255,
+            blue: Double(valoare & 0xFF) / 255,
+            opacity: 1
+        )
+    }
+
+    init(culoare: Color) {
+        let culoareUIKit = UIColor(culoare)
+        var rosu: CGFloat = 0
+        var verde: CGFloat = 0
+        var albastru: CGFloat = 0
+        var opacitate: CGFloat = 0
+
+        if culoareUIKit.getRed(&rosu, green: &verde, blue: &albastru, alpha: &opacitate) {
+            self.init(
+                hex: String(
+                    format: "%02X%02X%02X",
+                    Int((rosu * 255).rounded()),
+                    Int((verde * 255).rounded()),
+                    Int((albastru * 255).rounded())
+                )
+            )
+        } else {
+            self.init(hex: "BFC6CC")
         }
     }
 }
