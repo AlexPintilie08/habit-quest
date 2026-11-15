@@ -65,7 +65,7 @@ struct EcranBunVenit: View {
                             .foregroundStyle(.primary)
                             .padding(.horizontal, 22)
                             .frame(minHeight: 48)
-                            .background(Color.black.opacity(0.05), in: Capsule())
+                            .background(Color.primary.opacity(0.06), in: Capsule())
                     }
                     .buttonStyle(.plain)
 
@@ -75,9 +75,9 @@ struct EcranBunVenit: View {
                         Button(action: treciLaUrmatorulSlide) {
                             Image(systemName: "arrow.right")
                                 .font(.system(size: 21, weight: .medium))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(Color(uiColor: .systemBackground))
                                 .frame(width: 52, height: 52)
-                                .background(Color.black, in: Circle())
+                                .background(Color.primary, in: Circle())
                         }
                         .accessibilityLabel("Urmatorul slide")
 
@@ -93,7 +93,7 @@ struct EcranBunVenit: View {
             .padding(.bottom, 12)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white.ignoresSafeArea())
+        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
         .task(id: paginaActiva) {
             progresActiv = 0
             withAnimation(.linear(duration: 5)) {

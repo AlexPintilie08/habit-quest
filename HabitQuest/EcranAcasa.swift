@@ -2,8 +2,9 @@ import SwiftUI
 
 private enum FilaAcasa: Hashable {
     case sat
-    case harta
-    case profil
+    case journey
+    case character
+    case setari
 }
 
 struct EcranAcasa: View {
@@ -15,16 +16,20 @@ struct EcranAcasa: View {
                 .tabItem { Label("Sat", systemImage: "house.fill") }
                 .tag(FilaAcasa.sat)
 
-            ecranCuTitlu("Harta")
-                .tabItem { Label("Harta", systemImage: "map") }
-                .tag(FilaAcasa.harta)
+            ecranCuTitlu("Journey")
+                .tabItem { Label("Journey", systemImage: "map") }
+                .tag(FilaAcasa.journey)
 
-            ecranCuTitlu("Profil")
-                .tabItem { Label("Profil", systemImage: "person.crop.circle") }
-                .tag(FilaAcasa.profil)
+            EcranPersonaj(esteActiv: filaSelectata == .character)
+                .tabItem { Label("Character", systemImage: "person.crop.square") }
+                .tag(FilaAcasa.character)
+
+            EcranSetari()
+                .tabItem { Label("Setari", systemImage: "gearshape") }
+                .tag(FilaAcasa.setari)
         }
-        .tint(.black)
-        .background(Color.white.ignoresSafeArea())
+        .tint(.primary)
+        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
     }
 
     private var paginaSat: some View {
@@ -32,7 +37,7 @@ struct EcranAcasa: View {
             VStack(alignment: .leading, spacing: 0) {
                 Text("Habit Quest")
                     .font(.largeTitle.weight(.bold))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.primary)
                     .padding(.top, 12)
 
                 Spacer(minLength: 20)
@@ -43,11 +48,13 @@ struct EcranAcasa: View {
                         .scaledToFit()
                         .frame(maxWidth: .infinity)
                         .frame(height: min(geometrie.size.height * 0.43, 330))
+                        .padding(8)
+                        .background(.white, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
                         .accessibilityHidden(true)
 
                     Text("Sat")
                         .font(.system(size: 52, weight: .bold))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.primary)
 
                     Text("Aici va creste satul tau")
                         .font(.title3)
@@ -59,14 +66,15 @@ struct EcranAcasa: View {
             }
             .padding(.horizontal, 24)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.white)
+            .background(Color(uiColor: .systemBackground))
         }
     }
 
     private func ecranCuTitlu(_ titlu: String) -> some View {
         Text(titlu)
-            .foregroundStyle(.black)
+            .font(.title2)
+            .foregroundStyle(.primary)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.white)
+            .background(Color(uiColor: .systemBackground))
     }
 }

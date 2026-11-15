@@ -12,17 +12,17 @@ struct IndicatorPaginare: View {
                     GeometryReader { geometrie in
                         ZStack(alignment: .leading) {
                             Capsule()
-                                .fill(Color.black.opacity(0.2))
+                                .fill(Color.primary.opacity(0.2))
 
                             Capsule()
-                                .fill(Color.black)
+                                .fill(Color.primary)
                                 .frame(width: geometrie.size.width * progres)
                         }
                     }
                     .frame(width: 40, height: 6)
                 } else {
                     Circle()
-                        .fill(Color.black.opacity(0.25))
+                        .fill(Color.primary.opacity(0.25))
                         .frame(width: 6, height: 6)
                 }
             }

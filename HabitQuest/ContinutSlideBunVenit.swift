@@ -19,11 +19,13 @@ struct ContinutSlideBunVenit: View {
                         .scaledToFit()
                         .frame(maxWidth: .infinity)
                         .frame(height: min(max(geometrie.size.height * 0.52, 260), 440))
+                        .padding(8)
+                        .background(.white, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
                         .accessibilityHidden(true)
 
                     Text(slide.titlu)
                         .font(.system(size: 28, weight: .bold))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.primary)
                         .multilineTextAlignment(.center)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
@@ -45,6 +47,6 @@ struct ContinutSlideBunVenit: View {
             .scrollIndicators(.hidden)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
+        .background(Color(uiColor: .systemBackground))
     }
 }

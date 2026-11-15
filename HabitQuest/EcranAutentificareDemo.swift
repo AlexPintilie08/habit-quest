@@ -12,12 +12,14 @@ struct EcranAutentificareDemo: View {
                         .scaledToFit()
                         .frame(maxWidth: .infinity)
                         .frame(height: min(geometrie.size.height * 0.28, 230))
+                        .padding(8)
+                        .background(.white, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
                         .accessibilityHidden(true)
 
                     VStack(spacing: 4) {
                         Text("Habit Quest")
                             .font(.system(size: 42, weight: .bold))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.primary)
 
                         Text("Aventura ta incepe aici")
                             .font(.title3)
@@ -43,7 +45,7 @@ struct EcranAutentificareDemo: View {
             }
             .scrollIndicators(.hidden)
         }
-        .background(Color.white.ignoresSafeArea())
+        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
     }
 
     private var butonLoginDemo: some View {
@@ -54,7 +56,7 @@ struct EcranAutentificareDemo: View {
                     .frame(width: 46, height: 46)
 
                 Rectangle()
-                    .fill(Color.white.opacity(0.3))
+                    .fill(Color(uiColor: .systemBackground).opacity(0.3))
                     .frame(width: 1, height: 38)
 
                 Text("Login Demo")
@@ -65,11 +67,11 @@ struct EcranAutentificareDemo: View {
                 Image(systemName: "arrow.right")
                     .font(.system(size: 20, weight: .medium))
             }
-            .foregroundStyle(.white)
+            .foregroundStyle(Color(uiColor: .systemBackground))
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
             .frame(height: 76)
-            .background(Color.black, in: RoundedRectangle(cornerRadius: 24))
+            .background(Color.primary, in: RoundedRectangle(cornerRadius: 24))
         }
         .buttonStyle(.plain)
     }
@@ -88,39 +90,39 @@ struct EcranAutentificareDemo: View {
                             .resizable()
                             .scaledToFit()
                             .padding(11)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.primary)
                     }
                 }
                 .frame(width: 44, height: 44)
-                .background(Color.black.opacity(0.05), in: RoundedRectangle(cornerRadius: 14))
+                .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 14))
 
                 Rectangle()
-                    .fill(Color.black.opacity(0.1))
+                    .fill(Color.primary.opacity(0.1))
                     .frame(width: 1, height: 44)
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(titlu)
                         .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(Color.black.opacity(0.72))
+                        .foregroundStyle(Color.primary.opacity(0.82))
 
                     Text("Indisponibil momentan")
                         .font(.system(size: 14))
-                        .foregroundStyle(Color.black.opacity(0.48))
+                        .foregroundStyle(.secondary)
                 }
 
                 Spacer(minLength: 4)
 
                 Image(systemName: "lock")
                     .font(.system(size: 19, weight: .regular))
-                    .foregroundStyle(Color.black.opacity(0.48))
+                    .foregroundStyle(.secondary)
             }
             .padding(.horizontal, 14)
             .frame(maxWidth: .infinity)
             .frame(height: 72)
-            .background(Color.black.opacity(0.04), in: RoundedRectangle(cornerRadius: 22))
+            .background(Color.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 22))
             .overlay {
                 RoundedRectangle(cornerRadius: 22)
-                    .stroke(Color.black.opacity(0.06), lineWidth: 1)
+                    .stroke(Color.primary.opacity(0.06), lineWidth: 1)
             }
         }
         .buttonStyle(StilButonInactiv())

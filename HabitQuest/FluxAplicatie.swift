@@ -8,6 +8,7 @@ private enum EtapaAplicatie {
 
 struct FluxAplicatie: View {
     @State private var etapa = EtapaAplicatie.bunVenit
+    @AppStorage("temaAplicatie") private var temaAplicatie = TemaAplicatie.sistem.rawValue
 
     var body: some View {
         Group {
@@ -24,6 +25,6 @@ struct FluxAplicatie: View {
                 EcranAcasa()
             }
         }
-        .preferredColorScheme(.light)
+        .preferredColorScheme(TemaAplicatie(rawValue: temaAplicatie)?.schemaCulori)
     }
 }
